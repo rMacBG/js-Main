@@ -1,10 +1,14 @@
-const upper = document.getElementById("upperCase")
-const lower = document.getElementById("lowerCase")
-const number = document.getElementById("number")
-const symbol = document.getElementById("symbol")
+// const upper = document.getElementById("upperCase")
+// const lower = document.getElementById("lowerCase")
+// const number = document.getElementById("number")
+// const symbol = document.getElementById("symbol")
+
 const length = document.getElementById("length-slider")
 const passwordBox = document.getElementById("passwordBox")
 const lengthNumber = document.getElementById("slider-number")
+const passwordAlert = "You need to check at least one box!"
+const copyAlert = "Password was copied to the clipboard!"
+const noPasswordAlert = "There is no password to copy!"
 
 const keys = {
   upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -29,37 +33,38 @@ const getKey = [
 ];
 
 length.oninput = function () {
-  lengthNumber.innterText = this.value;
+  lengthNumber.innerText = this.value;
 }
 
 function createPassword() {
-  upper.checked;
-  lower.checked;
-  number.checked;
-  symbol.checked;
+  const upper = document.getElementById("upperCase").checked;
+  const lower = document.getElementById("lowerCase").checked;
+  const number = document.getElementById("number").checked;
+  const symbol = document.getElementById("symbol").checked;
+
   if (upper + lower + number + symbol === 0) {
-    alert("Please check atleast one box!");
+    alert(passwordAlert)
     return;
   }
-
   let password = "";
   while (length.value > password.length) {
     let keyToAdd = getKey[Math.floor(Math.random() * getKey.length)];
     let isChecked = document.getElementById(keyToAdd.name).checked;
     if (isChecked) {
       password += keyToAdd();
-    }
+    } 
+    
   }
   passwordBox.innerHTML = password;
 }
 function copyPassword() {
   const textarea = document.createElement("textarea");
   const password = document.getElementById("passwordBox").innerText;
-  if (!password) { return; }
+  if (!password) { return alert(noPasswordAlert) }
   textarea.value = password;
   document.body.appendChild(textarea);
   textarea.select();
   document.execCommand("copy");
   textarea.remove();
-  alert("Password copied was copied to the clipboard!");
+  alert(copyAlert);
 }
